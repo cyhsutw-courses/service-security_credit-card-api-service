@@ -15,8 +15,7 @@ class CreditCardAPI < Sinatra::Base
     halt 400 unless number
     card = CreditCard.new(number,nil,nil,nil)
     {
-      card: number,
-      validated: card.validate_checksum
+      card.validate_checksum
     }
 
   end
