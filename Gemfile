@@ -12,3 +12,6 @@ gem 'sinatra'
 
 # json (de)serialization
 gem 'json'
+
+# testing
+gem 'rack-test'
