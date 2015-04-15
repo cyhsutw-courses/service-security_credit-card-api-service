@@ -1,7 +1,7 @@
-require_relative '../credit_card'
-require_relative '../substitution_cipher'
-require_relative '../double_trans_cipher'
-require_relative '../aes_cipher.rb'
+require_relative '../lib/credit_card'
+require_relative '../lib/substitution_cipher'
+require_relative '../lib/double_trans_cipher'
+require_relative '../lib/aes_cipher.rb'
 require 'minitest/autorun'
 require 'securerandom'
 
