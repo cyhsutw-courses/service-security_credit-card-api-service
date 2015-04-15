@@ -1,7 +1,7 @@
 require 'json'
 require 'sinatra'
 
-require_relative 'lib/credit_card.rb'
+require_relative 'lib/luhn_validator.rb'
 
 class CreditCardAPI < Sinatra::Base
   # TODO: add API paths
