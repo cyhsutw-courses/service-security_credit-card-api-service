@@ -17,7 +17,7 @@ class CreditCardAPI < Sinatra::Base
     {
       card: number,
       validated: card.validate_checksum
-    }.to_json
+    }
 
   end
 
