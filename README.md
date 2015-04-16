@@ -1,9 +1,29 @@
 # Credit Card API
 
 ### Usage
-	To use the API, type on your browser
-	http://credit-card-api.herokuapp.com/api/v1/credit_card/validate?card_number=YOUR_CARD_NUMBER_HERE
+	
+The base URL of the API is https://credit-card-api.herokuapp.com.
 
-	You will receive a json response with the validation result inside
+Use the following route to access the credit card validation function:
+
+#### Request Path
+
+```
+/api/v1/credit_card/validate
+```
+
+#### Parameters
+
+| Name          | Value                   |
+|:-------------:|:-----------------------:| 
+| `card_number` | Your credit card number |
+
+#### Response
+
+| Status Code | Body                                         |
+|:-----------:|:--------------------------------------------:|
+| 200         | JSON with card number and validation result  |
+| 400         | `empty`                                      |
+
 
 	
