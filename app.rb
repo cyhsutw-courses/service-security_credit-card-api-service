@@ -50,7 +50,7 @@ class CreditCardAPI < Sinatra::Base
   end
 
   get '/api/v1/all_credit_cards' do
-
+    CreditCard.all.to_json
   end
 
 end
