@@ -1,8 +1,6 @@
 require 'json'
 require 'sinatra'
 require './model/credit_card.rb'
-require_relative 'model/operation.rb'
-#require_relative 'lib/credit_card.rb'
 
 # credit card api service
 class CreditCardAPI < Sinatra::Base
@@ -26,18 +24,29 @@ class CreditCardAPI < Sinatra::Base
     owner = nil
     credit_network = nil
     request_json = request.body.read
-    begin
+    #begin
       unless request_json.empty?
         req = JSON.parse(request_json)
-        number = req['number']
-        expiration_date = req['expiration_date']
-        owner = req['owner']
-        credit_network = req['credit_network']
+        card = {
+          number: req['number'],
+          expiration_date: req['expiration_date'],
+          owner: req['owner'],
+          credit_network: req['credit_network']
+        }.to_json
       end
-      card = CreditCard.new(number, nil, nil, nil)
-    rescue
-      halt 400
-    end
+      #card_object = CreditCard.from_s(card)
+      #halt 400 unless card_object.validate_checksum
+
+      op = CreditCard.new(credit_card:'credit_card',
+                         parameters:card)
+      if op.save
+        status 201
+      else
+        halt 410
+      end
+    #rescue
+    #  halt 400
+    #end
   end
 
   get '/api/v1/all_credit_cards' do
