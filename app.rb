@@ -1,6 +1,6 @@
 require 'json'
 require 'sinatra'
-
+require './model/credit_card.rb'
 require_relative 'lib/credit_card.rb'
 
 # credit card api service
