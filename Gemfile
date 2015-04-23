@@ -25,9 +25,5 @@ group :development do
   gem 'tux'
 end
 
-#ORM
-gem 'activerecord'
-gem 'sinatra-activerecord'
-
-#tasks
+# tasks
 gem 'rake'

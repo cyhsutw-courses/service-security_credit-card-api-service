@@ -19,38 +19,44 @@ class CreditCardAPI < Sinatra::Base
   end
 
   post '/api/v1/credit_card' do
-    number = nil
-    expiration_date = nil
-    owner = nil
-    credit_network = nil
     request_json = request.body.read
-    #begin
-      unless request_json.empty?
-        req = JSON.parse(request_json)
-        card = {
-          number: req['number'],
-          expiration_date: req['expiration_date'],
-          owner: req['owner'],
-          credit_network: req['credit_network']
+    unless request_json.empty?
+      begin
+        obj = JSON.parse(request_json)
+        card = CreditCard.new(
+          number: obj['number'],
+          expiration_date: obj['expiration_date'],
+          owner: obj['owner'],
+          credit_network: obj['credit_network']
+        )
+        if card.validate_checksum && card.save
+          status 201
+          body({
+            status: 201,
+            message: 'Created'
+          }.to_json)
+        else
+          status 410
+          body({
+            status: 410,
+            message: 'Gone'
+          }.to_json)
+        end
+      rescue
+        halt 400, {
+          status: 400,
+          message: 'Bad Request'
         }.to_json
       end
-      #card_object = CreditCard.from_s(card)
-      #halt 400 unless card_object.validate_checksum
-
-      op = CreditCard.new(credit_card:'credit_card',
-                         parameters:card)
-      if op.save
-        status 201
-      else
-        halt 410
-      end
-    #rescue
-    #  halt 400
-    #end
+    end
   end
 
-  get '/api/v1/all_credit_cards' do
-    CreditCard.all.to_json
+  get '/api/v1/credit_card/all' do
+    begin
+      CreditCard.all.to_json
+    rescue
+      halt 500
+    end
   end
 
 end
