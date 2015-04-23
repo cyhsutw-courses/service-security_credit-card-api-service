@@ -22,4 +22,12 @@ gem 'rack-test'
 
 group :development do
   gem 'sqlite3'
+  gem 'tux'
 end
+
+#ORM
+gem 'activerecord'
+gem 'sinatra-activerecord'
+
+#tasks
+gem 'rake'

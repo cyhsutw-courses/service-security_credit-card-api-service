@@ -36,7 +36,7 @@ class CreditCard < ActiveRecord::Base
 
   # return a new CreditCard object given a serialized (JSON) representation
   def self.from_s(card_s)
-    card = JSON.parse(card_s.to_s)
+    card = JSON.parse(card_s)
     CreditCard.new(card['number'], card['expiration_date'],
                    card['owner'], card['credit_network'])
   end
