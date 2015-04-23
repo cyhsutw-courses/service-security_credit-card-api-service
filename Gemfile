@@ -10,8 +10,16 @@ gem 'thin'
 # web framework
 gem 'sinatra'
 
+# active record support
+gem 'activerecord'
+gem 'sinatra-activerecord'
+
 # json (de)serialization
 gem 'json'
 
 # testing
 gem 'rack-test'
+
+group :development do
+  gem 'sqlite3'
+end
