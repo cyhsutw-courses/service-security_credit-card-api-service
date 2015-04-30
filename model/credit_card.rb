@@ -50,4 +50,14 @@ class CreditCard < ActiveRecord::Base
   def hash_secure
     OpenSSL::Digest::SHA256.new.digest(to_json).unpack('H*').first
   end
+
+  # number getter
+  def number
+    # please decrypt the number and return
+  end
+
+  # number setter
+  def number=(plain_number)
+    # please encrypt the number
+  end
 end
