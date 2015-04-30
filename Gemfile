@@ -23,6 +23,9 @@ gem 'rack-test'
 # data encryption
 gem 'rbnacl-libsodium'
 
+# manage environment variables
+gem 'dotenv'
+
 group :development do
   gem 'sqlite3'
   gem 'tux'

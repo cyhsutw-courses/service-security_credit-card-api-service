@@ -36,3 +36,6 @@ build/
 
 # ignore local databases
 db/*.db
+
+# ignore secret env variables
+.env
