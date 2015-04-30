@@ -11,7 +11,8 @@ class CreditCardAPI < Sinatra::Base
   get '/api/v1/credit_card/validate' do
     number = params[:card_number]
     halt 400 unless number
-    card = CreditCard.new(number, nil, nil, nil)
+    card = CreditCard.new
+    card.number = number
     {
       card: number,
       validated: card.validate_checksum
@@ -24,11 +25,11 @@ class CreditCardAPI < Sinatra::Base
       begin
         obj = JSON.parse(request_json)
         card = CreditCard.new(
-          number: obj['number'],
           expiration_date: obj['expiration_date'],
           owner: obj['owner'],
           credit_network: obj['credit_network']
         )
+        card.number = obj['number']
         if card.validate_checksum && card.save
           status 201
           body({
