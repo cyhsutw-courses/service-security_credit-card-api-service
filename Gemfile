@@ -20,6 +20,9 @@ gem 'json'
 # testing
 gem 'rack-test'
 
+# data encryption
+gem 'rbnacl-libsodium'
+
 group :development do
   gem 'sqlite3'
   gem 'tux'
