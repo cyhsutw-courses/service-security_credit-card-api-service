@@ -1,6 +1,7 @@
 require 'json'
 require 'openssl'
 require 'sinatra/activerecord'
+require 'rbnacl/libsodium'
 require_relative '../environments.rb'
 require_relative '../lib/luhn_validator.rb'
 
@@ -8,6 +9,8 @@ require_relative '../lib/luhn_validator.rb'
 class CreditCard < ActiveRecord::Base
   # Mixin the validator
   include LuhnValidator
+
+  @@secret_box ||= RbNaCl::SecretBox.new([ENV['DB_KEY']].pack('H*'))
 
   # instance variables with automatic getter/setter methods
   # attr_accessor :number, :expiration_date, :owner, :credit_network
@@ -22,7 +25,7 @@ class CreditCard < ActiveRecord::Base
   # returns json string
   def to_json
     {
-      number: @number,
+      number: number,
       expiration_date: @expiration_date,
       owner: @owner,
       credit_network: @credit_network
@@ -53,11 +56,14 @@ class CreditCard < ActiveRecord::Base
 
   # number getter
   def number
-    # please decrypt the number and return
+    @@secret_box.decrypt [nonce].pack('H*'), [encrypted_number].pack('H*')
   end
 
   # number setter
-  def number=(plain_number)
-    # please encrypt the number
+  def number=(plain)
+    nonce = RbNaCl::Random.random_bytes(@@secret_box.nonce_bytes)
+    self.nonce = nonce.unpack('H*').first
+    self.encrypted_number = @@secret_box.encrypt(nonce, plain)
+                                        .unpack('H*').first
   end
 end
