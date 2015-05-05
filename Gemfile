@@ -15,3 +15,7 @@ gem 'json'
 
 # testing
 gem 'rack-test'
+
+group :production do
+  gem 'pg'
+end
