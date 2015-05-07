@@ -50,9 +50,9 @@ class CreditCard < ActiveRecord::Base
   def to_hash
     {
       number: number,
-      expiration_date: @expiration_date,
-      owner: @owner,
-      credit_network: @credit_network
+      expiration_date: expiration_date,
+      owner: owner,
+      credit_network: credit_network
     }
   end
 
