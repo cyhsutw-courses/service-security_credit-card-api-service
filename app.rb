@@ -29,7 +29,7 @@ class CreditCardAPI < Sinatra::Base
           owner: obj['owner'],
           credit_network: obj['credit_network']
         )
-        card.number = obj['number']
+        card.number = obj['number'].chomp
         if card.validate_checksum && card.save
           status 201
           body({
