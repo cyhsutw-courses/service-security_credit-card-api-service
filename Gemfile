@@ -17,9 +17,6 @@ gem 'sinatra-activerecord'
 # json (de)serialization
 gem 'json'
 
-# testing
-gem 'rack-test'
-
 # data encryption
 gem 'rbnacl-libsodium'
 
@@ -31,9 +28,13 @@ group :development do
   gem 'tux'
 end
 
+group :test do
+  gem 'rake'
+  gem 'rack'
+  gem 'rack-test'
+  gem 'minitest'
+end
+
 group :production do
   gem 'pg'
 end
-
-# tasks
-gem 'rake'

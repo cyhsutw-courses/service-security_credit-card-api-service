@@ -71,6 +71,8 @@ DEPENDENCIES
   activerecord
   dotenv
   json
+  minitest
+  rack
   rack-test
   rake
   rbnacl-libsodium

@@ -9,7 +9,6 @@ def app
   CreditCardAPI
 end
 
-
 describe 'Root route' do
   it 'should return a message that the service is available' do
     get '/'
@@ -40,6 +39,46 @@ describe 'Validation route' do
       resp = JSON.parse last_response.body
       assert_equal(resp['card'], card[:number])
       assert_equal(resp['validated'], card[:valid])
+    end
+  end
+end
+
+describe 'All credit cards' do
+  it 'should return all credit cards' do
+    # clean up database
+    CreditCard.delete_all
+
+    cards = [
+      {
+        number: '4024097178888052', # invalid
+        expiration_date: '',
+        owner: '',
+        credit_network: ''
+      },
+      {
+        number: '4916603231464963', # valid
+        expiration_date: '',
+        owner: '',
+        credit_network: ''
+      },
+      {
+        number: '4916603231464963' # valid
+        # missing values
+      }
+    ]
+
+    req_header = { 'content-type': 'application/json' }
+
+    cards.each do |card|
+      post '/api/v1/credit_card', card.to_json, req_header
+    end
+
+    get '/api/v1/credit_card/all'
+    resp = JSON.parse last_response.body
+    assert_equal(resp.class, Array)
+    assert_equal(resp.length, 2)
+    resp.each do |card|
+      assert_equal(card['number'], '4916603231464963')
     end
   end
 end

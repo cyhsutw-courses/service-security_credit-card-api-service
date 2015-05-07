@@ -54,10 +54,9 @@ class CreditCardAPI < Sinatra::Base
 
   get '/api/v1/credit_card/all' do
     begin
-      CreditCard.all.to_json
+      CreditCard.all.map(&:to_hash).to_json
     rescue
       halt 500
     end
   end
-
 end
