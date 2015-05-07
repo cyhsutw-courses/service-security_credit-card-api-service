@@ -5,3 +5,11 @@ require 'rack/test'
 
 require 'dotenv'
 Dotenv.load
+
+require_relative '../app'
+
+include Rack::Test::Methods
+
+def app
+  CreditCardAPI
+end

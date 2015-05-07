@@ -47,8 +47,13 @@ class CreditCard < ActiveRecord::Base
   end
 
   # return a hash of the serialized credit card object
-  def hash
-    to_json.hash
+  def to_hash
+    {
+      number: number,
+      expiration_date: @expiration_date,
+      owner: @owner,
+      credit_network: @credit_network
+    }
   end
 
   # return a cryptographically secure hash

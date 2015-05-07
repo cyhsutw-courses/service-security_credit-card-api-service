@@ -43,6 +43,20 @@ describe 'Validation route' do
   end
 end
 
+describe 'Saving Credit Cards' do
+  it 'should return status 201' do
+    req_header = { 'content-type': 'application/json' }
+    req_body = {
+      expiration_date: '2014/09/22',
+      owner: 'Amon',
+      number: '4539075978941247',
+      credit_network: 'Visa'
+    }.to_json
+    post '/api/v1/credit_card', req_body, req_header
+    last_response.status.must_equal 201
+  end
+end
+
 describe 'All credit cards' do
   it 'should return all credit cards' do
     # clean up database
