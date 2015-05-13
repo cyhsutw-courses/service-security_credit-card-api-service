@@ -4,8 +4,31 @@ require './model/credit_card.rb'
 
 # credit card api service
 class CreditCardAPI < Sinatra::Base
+  include CreditCardAPIHelper
+
+  # TODO: add necessary configurations
+  # => sessions & cookies
+  # => logging
+
+
   get '/' do
-    'Credit Card Application is up and running: API available at /api/v1/'
+    haml :index
+  end
+
+  get 'api/v1/users/sign_up' do
+    haml :sign_up
+  end
+
+  post '/api/v1/users/sign_up' do
+    # TODO: fill in sign up logics
+  end
+
+  get 'api/v1/users/sign_in' do
+    haml :sign_in
+  end
+
+  post 'api/v1/users/sign_in' do
+    # TODO: fill in sign in logics
   end
 
   get '/api/v1/credit_card/validate' do
