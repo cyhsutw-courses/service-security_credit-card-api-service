@@ -14,9 +14,9 @@ class CreateUsers < ActiveRecord::Migration
       t.text :address, null: false
       t.string :address_nonce, null: false
 
-      t.date :dob, null: false
+      t.string :dob, null: false
       t.string :dob_nonce, null: false
-      
+
     end
   end
 end

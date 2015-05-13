@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20150513125412) do
     t.string "fullname_nonce",  null: false
     t.text   "address",         null: false
     t.string "address_nonce",   null: false
-    t.date   "dob",             null: false
+    t.string "dob",             null: false
     t.string "dob_nonce",       null: false
   end
 
