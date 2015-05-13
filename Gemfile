@@ -24,6 +24,9 @@ gem 'rbnacl-libsodium'
 # manage environment variables
 gem 'dotenv'
 
+# view DSL support
+gem 'haml'
+
 group :development do
   gem 'sqlite3'
   gem 'tux'
