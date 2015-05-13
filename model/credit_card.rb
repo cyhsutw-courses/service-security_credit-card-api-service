@@ -1,4 +1,5 @@
 require 'json'
+require 'base64'
 require 'openssl'
 require 'sinatra/activerecord'
 require 'rbnacl/libsodium'
@@ -20,11 +21,7 @@ class CreditCard < ActiveRecord::Base
   #   @credit_network = credit_network
   # end
 
-  # returns json string
-  def to_json
-    to_hash.to_json
-  end
-
+  # return a hash of the serialized credit card object
   def to_hash
     {
       number: number,
@@ -32,6 +29,11 @@ class CreditCard < ActiveRecord::Base
       owner: owner,
       credit_network: credit_network
     }
+  end
+
+  # returns json string
+  def to_json
+    to_hash.to_json
   end
 
   # returns all card information as single string
@@ -46,35 +48,26 @@ class CreditCard < ActiveRecord::Base
                    card['owner'], card['credit_network'])
   end
 
-  # return a hash of the serialized credit card object
-  def to_hash
-    {
-      number: number,
-      expiration_date: expiration_date,
-      owner: owner,
-      credit_network: credit_network
-    }
-  end
-
   # return a cryptographically secure hash
   def hash_secure
     OpenSSL::Digest::SHA256.new.digest(to_json).unpack('H*').first
   end
 
   def secret_box
-    @secret_box ||= RbNaCl::SecretBox.new([ENV['DB_KEY']].pack('H*'))
+    @secret_box ||= RbNaCl::SecretBox.new(Base64.urlsafe_decode64(ENV['DB_KEY']))
   end
 
   # number getter
   def number
-    secret_box.decrypt [nonce].pack('H*'), [encrypted_number].pack('H*')
+    nonce_bytes = Base64.urlsafe_decode64(nonce)
+    encrypted_number_bytes = Base64.urlsafe_decode64(encrypted_number)
+    secret_box.decrypt(nonce_bytes, encrypted_number_bytes)
   end
 
   # number setter
   def number=(plain)
     nonce = RbNaCl::Random.random_bytes(secret_box.nonce_bytes)
-    self.nonce = nonce.unpack('H*').first
-    self.encrypted_number = secret_box.encrypt(nonce, plain)
-                                        .unpack('H*').first
+    self.nonce = Base64.urlsafe_encode64(nonce)
+    self.encrypted_number = Base64.urlsafe_encode64(secret_box.encrypt(nonce, plain))
   end
 end
