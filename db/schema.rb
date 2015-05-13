@@ -27,8 +27,11 @@ ActiveRecord::Schema.define(version: 20150513125412) do
     t.string "password_salt",   null: false
     t.string "email",           null: false
     t.string "fullname",        null: false
+    t.string "fullname_nonce",  null: false
     t.text   "address",         null: false
+    t.string "address_nonce",   null: false
     t.date   "dob",             null: false
+    t.string "dob_nonce",       null: false
   end
 
 end
