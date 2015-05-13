@@ -13,6 +13,7 @@ gem 'sinatra'
 # active record support
 gem 'activerecord'
 gem 'sinatra-activerecord'
+gem 'protected_attributes'
 
 # json (de)serialization
 gem 'json'
