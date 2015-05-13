@@ -1,6 +1,8 @@
 require 'json'
 require 'sinatra'
-require './model/credit_card.rb'
+require_relative 'model/credit_card.rb'
+require_relative 'model/user.rb'
+require_relative 'helpers/credit_card_api_helper.rb'
 
 # credit card api service
 class CreditCardAPI < Sinatra::Base
@@ -15,23 +17,23 @@ class CreditCardAPI < Sinatra::Base
     haml :index
   end
 
-  get 'api/v1/users/sign_up' do
+  get '/api/v1/users/sign_up/?' do
     haml :sign_up
   end
 
-  post '/api/v1/users/sign_up' do
+  post '/api/v1/users/sign_up/?' do
     # TODO: fill in sign up logics
   end
 
-  get 'api/v1/users/sign_in' do
+  get '/api/v1/users/sign_in/?' do
     haml :sign_in
   end
 
-  post 'api/v1/users/sign_in' do
+  post '/api/v1/users/sign_in/?' do
     # TODO: fill in sign in logics
   end
 
-  get '/api/v1/credit_card/validate' do
+  get '/api/v1/credit_card/validate/?' do
     number = params[:card_number]
     halt 400 unless number
     card = CreditCard.new
@@ -42,7 +44,7 @@ class CreditCardAPI < Sinatra::Base
     }.to_json
   end
 
-  post '/api/v1/credit_card' do
+  post '/api/v1/credit_card/?' do
     request_json = request.body.read
     unless request_json.empty?
       begin
@@ -75,7 +77,7 @@ class CreditCardAPI < Sinatra::Base
     end
   end
 
-  get '/api/v1/credit_card/all' do
+  get '/api/v1/credit_card/all/?' do
     begin
       CreditCard.all.map(&:to_hash).to_json
     rescue
