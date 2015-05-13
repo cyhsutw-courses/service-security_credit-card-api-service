@@ -12,6 +12,10 @@ class CreditCardAPI < Sinatra::Base
   # => sessions & cookies
   # => logging
 
+  before do
+    # TODO: assign proper user to @current_user
+    @current_user
+  end
 
   get '/' do
     haml :index
@@ -31,6 +35,11 @@ class CreditCardAPI < Sinatra::Base
 
   post '/api/v1/users/sign_in/?' do
     # TODO: fill in sign in logics
+  end
+
+  post '/api/v1/users/sign_out/?' do
+    # TODO: fill in sign out logics
+    # => make sure it redirects to sign in page
   end
 
   get '/api/v1/credit_card/validate/?' do
