@@ -39,7 +39,7 @@ class CreditCardAPI < Sinatra::Base
       end
     rescue => exception
       logger.error(exception)
-      redirect '/api/v1/users/sign_up/?'
+      redirect '/api/v1/users/sign_up/'
     end
   end
 
@@ -51,7 +51,7 @@ class CreditCardAPI < Sinatra::Base
     username = params[:username]
     password = params[:password]
     user = User.authenticate!(username, password)
-    user ? login(user) : redirect '/api/v1/users/sign_in/?'
+    user ? login(user) : redirect '/api/v1/users/sign_in/'
   end
 
   post '/api/v1/users/sign_out/?' do
