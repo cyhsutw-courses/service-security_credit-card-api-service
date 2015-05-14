@@ -8,11 +8,9 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true
   validates :hashed_password, presence: true
   validates :password_salt, presence: true
-  # TODO: validate email format
-  validates :email, presence: true
+  validates :email, presence: true, format: /@/
   validates :fullname, presence: true
   validates :address, presence: true
-  # TODO: validates date format
   validates :dob, presence: true
 
   # ignore these fields when doing mass assignment
@@ -21,20 +19,29 @@ class User < ActiveRecord::Base
 
   # static methods
   def self.authenticate!(username, password)
-    # TODO: authenticate user
+    user = User.find_by_username(username)
+    user && user.password_matches?(password) ? user : nil
   end
 
   def self.hash_password(salt, password)
-    # TODO: hash password
+    # (password, salt, max operations, max memory, digest size)
+    RbNaCl::PasswordHash.scrypt(password, salt, 2**20, 2**24, 64)
   end
 
   # setter for password
   def password=(password)
-    # TODO: fill in set password logic
+    salt = RbNaCl::Random.random_bytes(RbNaCl::PasswordHash::SCrypt::SALTBYTES)
+    password_digest = self.class.hash_password(salt, password)
+    self.password_salt = Base64.urlsafe_encode64(salt)
+    self.hashed_password = Base64.urlsafe_encode64(password_digest)
   end
 
   def password_matches?(password)
-    # TODO: check if password matches
+    input_password = self.class.hash_password(
+      Base64.urlsafe_decode64(password_salt),
+      password
+    )
+    Base64.urlsafe_encode64(input_password) == hashed_password
   end
 
   # setters
