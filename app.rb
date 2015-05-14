@@ -31,7 +31,7 @@ class CreditCardAPI < Sinatra::Base
     password_confirm = params[:password_confirm]
     begin
       if password == password_confirm
-        new_user = User.new(username: username, email: email)
+        new_user = User.new(username: username, email: email, fullname: params[:fullname], dob: params[:dob], address: params[:adress])
         new_user.password = password
         new_user.save! ? login(new_user):fail('New user creation failed')
       else
