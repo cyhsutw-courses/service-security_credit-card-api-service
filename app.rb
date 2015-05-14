@@ -25,15 +25,13 @@ class CreditCardAPI < Sinatra::Base
 
   post '/api/v1/users/sign_up/?' do
     logger.info('Sign Up')
-    username = params[:username]
-    email = params[:email]
     password = params[:password]
     password_confirm = params[:password_confirm]
     begin
       if password == password_confirm
-        new_user = User.new(username: username, email: email, fullname: params[:fullname], dob: params[:dob], address: params[:address])
+        new_user = User.new(params)
         new_user.password = password
-        new_user.save! ? login(new_user):fail('New user creation failed')
+        new_user.save! ? login(new_user) : fail('New user creation failed')
       else
         fail 'Passwords do not match'
       end
@@ -51,7 +49,7 @@ class CreditCardAPI < Sinatra::Base
     username = params[:username]
     password = params[:password]
     user = User.authenticate!(username, password)
-    user ? login(user) : redirect '/api/v1/users/sign_in/'
+    user ? login(user) : redirect('/api/v1/users/sign_in/')
   end
 
   post '/api/v1/users/sign_out/?' do
