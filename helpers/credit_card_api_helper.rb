@@ -1,4 +1,7 @@
 # helper
 module CreditCardAPIHelper
-  # TODO: fill in necessary methods
+  def login(user)
+    session[:user_id] = user.id
+    redirect '/'
+  end
 end

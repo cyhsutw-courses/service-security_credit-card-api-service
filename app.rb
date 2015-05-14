@@ -8,13 +8,11 @@ require_relative 'helpers/credit_card_api_helper.rb'
 class CreditCardAPI < Sinatra::Base
   include CreditCardAPIHelper
 
-  # TODO: add necessary configurations
-  # => sessions & cookies
-  # => logging
+  use Rack::Session::Cookie
+  enable :logging
 
   before do
-    # TODO: assign proper user to @current_user
-    @current_user
+    @current_user = session[:user_id] ? User.find_by_id(session[:user_id]): nil
   end
 
   get '/' do
@@ -26,7 +24,23 @@ class CreditCardAPI < Sinatra::Base
   end
 
   post '/api/v1/users/sign_up/?' do
-    # TODO: fill in sign up logics
+    logger.info('Sign Up')
+    username = params[:username]
+    email = params[:email]
+    password = params[:password]
+    password_confirm = params[:password_confirm]
+    begin
+      if password == password_confirm
+        new_user = User.new(username: username, email: email, fullname: params[:fullname], dob: params[:dob], address: params[:address])
+        new_user.password = password
+        new_user.save! ? login(new_user):fail('New user creation failed')
+      else
+        fail 'Passwords do not match'
+      end
+    rescue => exception
+      logger.error(exception)
+      redirect '/api/v1/users/sign_up/'
+    end
   end
 
   get '/api/v1/users/sign_in/?' do
@@ -34,12 +48,15 @@ class CreditCardAPI < Sinatra::Base
   end
 
   post '/api/v1/users/sign_in/?' do
-    # TODO: fill in sign in logics
+    username = params[:username]
+    password = params[:password]
+    user = User.authenticate!(username, password)
+    user ? login(user) : redirect '/api/v1/users/sign_in/'
   end
 
   post '/api/v1/users/sign_out/?' do
-    # TODO: fill in sign out logics
-    # => make sure it redirects to sign in page
+    session[:user_id] = nil
+    redirect '/'
   end
 
   get '/api/v1/credit_card/validate/?' do
