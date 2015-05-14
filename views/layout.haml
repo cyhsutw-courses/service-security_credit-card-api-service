@@ -1,0 +1,21 @@
+!!! 5
+
+%html
+  %head
+    %title Credit Card API
+  %body
+    %h1 Welcome to Credit Card API
+    - if @current_user
+      = "Hi, #{@current_user.username}"
+      %span
+        &nbsp;|
+      %form{:action => '/api/v1/users/sign_out', :method => 'post', :style => 'display: inline'}
+        %input{:type => 'submit', :value => 'Sign Out'}
+    - else
+      %a{href: '/api/v1/users/sign_in'}
+        = "Sign In"
+      %span
+        &nbsp;|
+      %a{href: '/api/v1/users/sign_up'}
+        = "Sign Up"
+    = yield

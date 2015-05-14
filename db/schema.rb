@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423134806) do
+ActiveRecord::Schema.define(version: 20150513125412) do
 
   create_table "credit_cards", force: :cascade do |t|
     t.string "encrypted_number"
@@ -19,6 +19,19 @@ ActiveRecord::Schema.define(version: 20150423134806) do
     t.string "owner"
     t.string "credit_network"
     t.date   "expiration_date"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username",        null: false
+    t.string "hashed_password", null: false
+    t.string "password_salt",   null: false
+    t.string "email",           null: false
+    t.string "fullname",        null: false
+    t.string "fullname_nonce",  null: false
+    t.text   "address",         null: false
+    t.string "address_nonce",   null: false
+    t.string "dob",             null: false
+    t.string "dob_nonce",       null: false
   end
 
 end

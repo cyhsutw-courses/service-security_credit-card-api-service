@@ -13,6 +13,7 @@ gem 'sinatra'
 # active record support
 gem 'activerecord'
 gem 'sinatra-activerecord'
+gem 'protected_attributes'
 
 # json (de)serialization
 gem 'json'
@@ -22,6 +23,9 @@ gem 'rbnacl-libsodium'
 
 # manage environment variables
 gem 'dotenv'
+
+# view DSL support
+gem 'haml'
 
 group :development do
   gem 'sqlite3'
