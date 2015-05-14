@@ -1,1 +1,31 @@
--# fill in page structure
+%h2 Sign Up
+%form{:action=>'/api/v1/users/sign_up', :method => 'post'}
+  %label{:for => 'username'} Username
+  %input{:type => 'text', :name => 'username'}
+  %br
+  %br
+  %label{:for => 'password'} Password
+  %input{:type => 'password', :name => 'password'}
+  %br
+  %br
+  %label{:for => 'password_confirm'} Confirm Password
+  %input{:type => 'password', :name => 'password_confirm'}
+  %br
+  %br
+  %label{:for => 'email'} Email Address
+  %input{:type => 'text', :name => 'email'}
+  %br
+  %br
+  %label{:for => 'full_name'} Full Name
+  %input{:type => 'text', :name => 'full_name'}
+  %br
+  %br
+  %label{:for => 'address'} Address
+  %input{:type => 'text', :name => 'address'}
+  %br
+  %br
+  %label{:for => 'dob'} Birthday
+  %input{:type => 'text', :name => 'dob'}
+  %br
+  %br
+  %input{:type => 'submit', :value => 'Sign Up'}
